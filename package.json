@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "electron .", 
+    "electron": "electron .",
     "electron-aot": "ng build --prod && electron ."
   },
   "private": true,
@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/router": "^6.0.0",
     "core-js": "^2.5.4",
+    "ngx-notify": "^2.0.2",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
