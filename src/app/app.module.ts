@@ -1,3 +1,6 @@
+
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from'@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -7,9 +10,23 @@ import { NavbarComponent } from './Componentes/navbar/navbar.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Componentes/login/login.component';
 import { NotifyModule } from 'ngx-notify';
+// import { AuthGuard } from './guardias/auth.guard';
+import { RegistroComponent } from './Componentes/registro/registro.component';
+import { AuthenticationService } from './Servicos/authentication.service';
+import { User } from './Clases/User';
+
+
 const routes :Routes = [
-  {path:'Chat', component: ChatComponent},
-  {path:'Login', component: LoginComponent}
+  {path:'registro',component:RegistroComponent},
+//  { path: '', component: LoginComponent, canActivate: [AuthGuard] },
+  {path:'chat', component: ChatComponent},
+  {path:'', component: LoginComponent,pathMatch:'full'},
+  { path: '**',   redirectTo: '', pathMatch: 'full' }
+ 
+
+
+  // otherwise redirect to home
+  // { path: '**', redirectTo: '' }
 
 ];
 
@@ -19,11 +36,14 @@ const routes :Routes = [
     AppComponent,
     ChatComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+     RegistroComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    HttpClientModule,
+    HttpModule,
     NotifyModule.forRoot({
       options: { },
       notify: {
@@ -33,7 +53,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [],
+  providers: [AuthenticationService,User],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
