@@ -8,11 +8,11 @@ function createWindow () {
     width: 600, 
     height: 600,
     backgroundColor: '#ffffff',
-    icon: `file://${__dirname}/dist/assets/logo.png`
+    icon: `./dist/assets/logo.png`
   })
 
 
-  win.loadURL(`http://localhost:4200/Chat`)
+  win.loadFile(`./dist/index.html`)
 
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()

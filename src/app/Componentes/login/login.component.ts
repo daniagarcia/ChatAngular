@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
 
      this.http.post<any>('http://127.0.0.1:3333/login',{usu:usu,psw:psw}).subscribe(res=>{
        console.log(res)
-       localStorage.setItem('token',res.token)
+       localStorage.setItem('token',res.sesion.token);
+       localStorage.setItem('usuario',res.user.username);
        this.router.navigate(['chat']);
      });
     // this.submitted =true;
