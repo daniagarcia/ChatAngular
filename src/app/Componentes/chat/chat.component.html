@@ -67,15 +67,17 @@
 				</li>
 			</ul>
 		</div>
+		<form (submit)="SendMensaje($event)">
 		<div class="message-input">
 			<div class="wrap">
-				<input type="text" placeholder="Escribe tu mensaje..." />
+				<input type="text" id="msj" placeholder="Escribe tu mensaje..." />
 				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
 				<button class="submit">
 					<i class="fa fa-paper-plane" aria-hidden="true"></i>
 				</button>
 			</div>
 		</div>
+	</form>
 	</div>
 </div>
 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>

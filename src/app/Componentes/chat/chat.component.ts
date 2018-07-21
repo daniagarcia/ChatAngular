@@ -20,5 +20,25 @@ export class ChatComponent implements OnInit {
         this.username=localStorage.getItem('usuario')
   }
 
+  SendMensaje(event){
+    event.preventDefault()
+    const target = event.target
+    const mensaje = target.querySelector('#msj').value;   
+    const id_usu = localStorage.getItem('id_user');
+    console.log(mensaje)
+
+    // const objeto = {
+    //   ajdnaksjd:0,asdasdadasd:9,adsasd:32,adsadasdada:[1,2,3,4,4],asdasd:{
+    //     sadasd:23
+    //   }
+    // }
+
+    this.http.post('http://127.0.0.1:3333/chats',{mensjae:mensaje,id_usu:[id_usu]}).subscribe(res=>{
+      console.log(res)
+    
+    });
+
+  }
+
   
 }
