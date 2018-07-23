@@ -18,10 +18,9 @@ import { User } from './Clases/User';
 
 const routes :Routes = [
   {path:'registro',component:RegistroComponent},
-//  { path: '', component: LoginComponent, canActivate: [AuthGuard] },
   {path:'chat', component: ChatComponent},
-  {path:'', component: LoginComponent,pathMatch:'full'},
-  { path: '**',   redirectTo: '', pathMatch: 'full' }
+  {path:'login', component: LoginComponent},
+  {path: '**',   redirectTo: '', pathMatch: 'full' }
  
 
 

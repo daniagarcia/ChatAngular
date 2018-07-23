@@ -10,6 +10,13 @@ import { AuthenticationService } from '../../Servicos/authentication.service';
 })
 export class ChatComponent implements OnInit {
   ws=Ws('ws://localhost:3333');
+  users:any[]=[]
+
+  conversando:any=null;
+
+  clickUsuario(user:any){
+    this.conversando=user
+  }
   
   username : string;
   constructor(private  route: ActivatedRoute,
@@ -17,7 +24,12 @@ export class ChatComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-        this.username=localStorage.getItem('usuario')
+        this.username=localStorage.getItem('usuario');
+
+        this.http.get<any>('http://127.0.0.1:3333/users').subscribe(res=>{
+          console.log(res)
+            this.users = res.users
+        });
   }
 
   SendMensaje(event){
