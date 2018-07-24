@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from '../../Servicos/authentication.service';
 import { HttpClient } from '@angular/common/http';
 
  
@@ -13,29 +12,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  loading = false;
-  submitted = false;
-  returnUrl: string;
-  bool: boolean
+
   constructor(private  route: ActivatedRoute,
-    private router: Router,private http:HttpClient,
-    private authenticationService: AuthenticationService) { }
+    private router: Router,private http:HttpClient) { }
 
     
    
   ngOnInit() {
-    this.bool = false;
-    this.authenticationService.logout();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+   
   }
 
-  setBool() 
-  {
-    return this.bool;
-  }
 
-  get f() { return this.loginForm.controls; }
+  
 
   onSubmit(event){
     event.preventDefault()

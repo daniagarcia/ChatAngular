@@ -36,7 +36,7 @@ const routes :Routes = [
     ChatComponent,
     NavbarComponent,
     LoginComponent,
-     RegistroComponent
+    RegistroComponent
   ],
   imports: [
     BrowserModule,

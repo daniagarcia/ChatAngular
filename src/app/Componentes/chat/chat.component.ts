@@ -15,7 +15,7 @@ export class ChatComponent implements OnInit {
   conversando:any=null;
 
   clickUsuario(user:any){
-    this.conversando=user
+    this.conversando={'user':user}
   }
   
   username : string;
@@ -37,6 +37,10 @@ export class ChatComponent implements OnInit {
     const target = event.target
     const mensaje = target.querySelector('#msj').value;   
     const id_usu = localStorage.getItem('id_user');
+    var ArrayUsers=[id_usu,this.conversando.user.id]
+    //mdiufcia
+    ArrayUsers.sort()
+    var UsersArray=ArrayUsers.join('-')
     console.log(mensaje)
 
     // const objeto = {
@@ -45,7 +49,7 @@ export class ChatComponent implements OnInit {
     //   }
     // }
 
-    this.http.post('http://127.0.0.1:3333/chats',{mensjae:mensaje,id_usu:[id_usu]}).subscribe(res=>{
+    this.http.post('http://127.0.0.1:3333/chats',{mensaje:mensaje,UsersArray:UsersArray}).subscribe(res=>{
       console.log(res)
     
     });
