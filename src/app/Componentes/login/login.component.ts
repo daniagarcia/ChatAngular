@@ -52,19 +52,6 @@ export class LoginComponent implements OnInit {
 
        this.router.navigate(['chat']);
      });
-    // this.submitted =true;
-    // if(this.loginForm.invalid){return;}
-
-    // this.loading=true;
-    // this.authenticationService.login(this.f.username.value,this.f.password.value)
-    // .pipe(first())
-    // .subscribe(
-    //   data => {
-    //     this.router.navigate([this.returnUrl]);
-    //   },
-    //   error =>{
-    //     this.loading=false;
-    // });
   }
 
 
