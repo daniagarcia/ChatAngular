@@ -3,6 +3,7 @@ import Ws from '@adonisjs/websocket-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -11,6 +12,7 @@ import { AuthenticationService } from '../../Servicos/authentication.service';
 export class ChatComponent implements OnInit {
   ws=Ws('ws://localhost:3333');
   users:any[]=[]
+  // mensaje:Message[]=[]
 
   conversando:any=null;
 
@@ -29,6 +31,8 @@ export class ChatComponent implements OnInit {
         this.http.get<any>('http://127.0.0.1:3333/users').subscribe(res=>{
           console.log(res)
             this.users = res.users
+            
+      // this.setUpChat();
         });
   }
 
@@ -54,6 +58,18 @@ export class ChatComponent implements OnInit {
     
     });
 
+  }
+  setUpChat(){
+    this.ws.connect();
+    const chat = this.ws.subscribe('chat');
+
+    chat.on('new:msj', (data) => {
+
+      console.log(' SOY UN MENSAJE ')
+
+     this.conversando.unshift(JSON.parse(data));
+      console.log(data)
+    })
   }
 
   
