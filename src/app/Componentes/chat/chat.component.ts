@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Ws from '@adonisjs/websocket-client';
+import  Ws from '@adonisjs/websocket-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
