@@ -83,12 +83,12 @@
 				</li>
 			</ul>
 		</div>
-		<form (submit)="SendMensaje($event)">
-			<div class="message-input">
+		<form >
+			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
 					<input type="text" id="msj" placeholder="Escribe tu mensaje..." />
 					<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-					<button id="btnEnviar" class="submit">
+					<button   id="btnEnviar" class="submit">
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
 				</div>

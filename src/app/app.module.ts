@@ -14,6 +14,7 @@ import { NotifyModule } from 'ngx-notify';
 import { RegistroComponent } from './Componentes/registro/registro.component';
 import { AuthenticationService } from './Servicos/authentication.service';
 import { User } from './Clases/User';
+import { ClienteService } from './Servicos/cliente.service';
 
 
 const routes :Routes = [
@@ -52,7 +53,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [AuthenticationService,User],
+  providers: [AuthenticationService,User,ClienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

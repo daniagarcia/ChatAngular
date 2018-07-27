@@ -3,10 +3,13 @@ import  Ws from '@adonisjs/websocket-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
+import { ClienteService } from '../../Servicos/cliente.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.css'],
+  providers:[ClienteService]
+
 })
 export class ChatComponent implements OnInit {
   ws=Ws('ws://localhost:3333');
@@ -21,7 +24,12 @@ export class ChatComponent implements OnInit {
   username : string;
   constructor(private  route: ActivatedRoute,
     private router: Router,private http:HttpClient,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService, private cliente :ClienteService) { 
+      // cliente.getRequest('http://127.0.0.1:3333');
+      // cliente.getRequest.subscribe(msg => {
+      //   console.log("Responde websocket:"+ msg);
+      // });
+    }
 
   ngOnInit() {
         this.username=localStorage.getItem('usuario');
@@ -32,6 +40,11 @@ export class ChatComponent implements OnInit {
         });
   }
 
+  private messages ={
+    author:'dania',
+    message:'es un test de mensaje'
+    
+  }
   SendMensaje(event){
     event.preventDefault()
     const target = event.target
@@ -42,6 +55,7 @@ export class ChatComponent implements OnInit {
     ArrayUsers.sort()
     var UsersArray=ArrayUsers.join('-')
     console.log(mensaje)
+    
 
     // const objeto = {
     //   ajdnaksjd:0,asdasdadasd:9,adsasd:32,adsadasdada:[1,2,3,4,4],asdasd:{
