@@ -3,7 +3,8 @@ import {HttpModule} from '@angular/http';
 import {HttpClientModule} from'@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {FormsModule} from '@angular/forms'
+import {FormControl} from '@angular/forms'
 import { AppComponent } from './app.component';
 import { ChatComponent } from './Componentes/chat/chat.component';
 import { NavbarComponent } from './Componentes/navbar/navbar.component';
@@ -44,6 +45,7 @@ const routes :Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     HttpModule,
+    FormsModule,
     NotifyModule.forRoot({
       options: { },
       notify: {

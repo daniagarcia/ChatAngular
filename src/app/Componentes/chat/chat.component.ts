@@ -13,6 +13,7 @@ import { ClienteService } from '../../Servicos/cliente.service';
 })
 export class ChatComponent implements OnInit {
   ws=Ws('ws://localhost:3333');
+  mensaje:string="";
   users:any[]=[]
 
   conversando:any=null;
