@@ -39,7 +39,7 @@
 							<p class="name">{{user.username}}</p>
 							<p class="preview">Mensajes</p>
 						</div>
-					</div>
+					</div>	
 				</li>
 			</ul>
 		</div>
@@ -84,19 +84,40 @@
 				</li>
 			</ul>
 		</div>
-		<form (submit)="SendMensaje($event)">
-			<div class="message-input">
+		<form >
+			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
-					<input type="text" id="msj" placeholder="Escribe tu mensaje..." />
+					<input type="text" name="msj" id="msj" [(ngModel)]="mensaje" (keyup.enter)="SendMensaje" placeholder="Escribe tu mensaje..." />
 					<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-					<button class="submit">
+					<button   id="btnEnviar" class="submit">
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
 				</div>
 			</div>
 		</form>
 	</div>
-</div>
-<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<!-- </div>
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="https://unpkg.com/@adonisjs/websocket-client"></script>
+<script>
+
+
+	const ws =ws('')
+	const chat = ws.channel('chat').connect()
+	chat.on('Message',function(message){
+		alert(message);
+
+	});
+
+		$('#btnEnviar').onClick(function(){
+		console.log("Presione el boton")
+		chat.emit("Message","prueba");
+		
+	});
+
+	
+</script> -->
+
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+
 <script>$(".messages").animate({ scrollTop: $(document).height() }, "fast");</script>

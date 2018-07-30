@@ -3,7 +3,8 @@ import {HttpModule} from '@angular/http';
 import {HttpClientModule} from'@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {FormsModule} from '@angular/forms'
+import {FormControl} from '@angular/forms'
 import { AppComponent } from './app.component';
 import { ChatComponent } from './Componentes/chat/chat.component';
 import { NavbarComponent } from './Componentes/navbar/navbar.component';
@@ -14,6 +15,7 @@ import { NotifyModule } from 'ngx-notify';
 import { RegistroComponent } from './Componentes/registro/registro.component';
 import { AuthenticationService } from './Servicos/authentication.service';
 import { User } from './Clases/User';
+import { ClienteService } from './Servicos/cliente.service';
 
 
 const routes :Routes = [
@@ -43,6 +45,7 @@ const routes :Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     HttpModule,
+    FormsModule,
     NotifyModule.forRoot({
       options: { },
       notify: {
@@ -52,7 +55,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [AuthenticationService,User],
+  providers: [AuthenticationService,User,ClienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
