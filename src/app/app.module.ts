@@ -4,18 +4,22 @@ import {HttpClientModule} from'@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms'
-import {FormControl} from '@angular/forms'
+import { RouterModule, Routes } from '@angular/router';
+//componentes 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './Componentes/chat/chat.component';
 import { NavbarComponent } from './Componentes/navbar/navbar.component';
-import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Componentes/login/login.component';
-import { NotifyModule } from 'ngx-notify';
-// import { AuthGuard } from './guardias/auth.guard';
 import { RegistroComponent } from './Componentes/registro/registro.component';
+//notificaciones
+import { NotifyModule } from 'ngx-notify';
+//servicios
 import { AuthenticationService } from './Servicos/authentication.service';
-import { User } from './Clases/User';
 import { ClienteService } from './Servicos/cliente.service';
+import {ChatService} from './Servicos/chat.service'
+//clases
+import { User } from './Clases/User';
+import { Message } from './Clases/Message';
 
 
 const routes :Routes = [
@@ -55,7 +59,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [AuthenticationService,User,ClienteService],
+  providers: [AuthenticationService,User,ClienteService,ChatService,Message],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

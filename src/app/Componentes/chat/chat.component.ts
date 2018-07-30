@@ -3,11 +3,7 @@ import  Ws from '@adonisjs/websocket-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
-<<<<<<< HEAD
-
-=======
 import { ClienteService } from '../../Servicos/cliente.service';
->>>>>>> f82345489227019eabe335de61d9c1ef3183ac23
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',

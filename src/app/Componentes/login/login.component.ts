@@ -20,12 +20,8 @@ export class LoginComponent implements OnInit {
 
     
    
-  ngOnInit() {
-   
-  }
-
-
-  
+  ngOnInit() {   
+  }  
 
   onSubmit(event){
     event.preventDefault()
