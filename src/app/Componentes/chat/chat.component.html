@@ -59,7 +59,7 @@
 			border: 2px solid #1fcf45;
 			height: 40px;
 			object-fit: cover;" src="/assets/perfil.jpg" alt="" />
-			<p>{{conversando.user.username}}</p>
+			<p></p>
 		</div>
   
 		<div  class="messages">
@@ -84,10 +84,10 @@
 				</li>
 			</ul>
 		</div>
-		<form >
+		<form (submit)="SendMensaje($event)"  >
 			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
-					<input type="text" name="msj" id="msj" [(ngModel)]="mensaje" (keyup.enter)="SendMensaje" placeholder="Escribe tu mensaje..." />
+					<input type="text" name="msj" id="msj"  placeholder="Escribe tu mensaje..." />
 					<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
 					<button   id="btnEnviar" class="submit">
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>

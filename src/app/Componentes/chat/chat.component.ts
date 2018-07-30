@@ -44,33 +44,28 @@ export class ChatComponent implements OnInit {
         });
   }
 
-  private messages ={
-    author:'dania',
-    message:'es un test de mensaje'
+  // private messages ={
+  //   author:'dania',
+  //   message:'es un test de mensaje'
     
-  }
+  // }
   SendMensaje(event){
     event.preventDefault()
     const target = event.target
     const mensaje = target.querySelector('#msj').value;   
     const id_usu = localStorage.getItem('id_user');
     var ArrayUsers=[id_usu,this.conversando.user.id]
-    //mdiufcia
+  
     ArrayUsers.sort()
     var UsersArray=ArrayUsers.join('-')
     console.log(mensaje)
     
-
-    // const objeto = {
-    //   ajdnaksjd:0,asdasdadasd:9,adsasd:32,adsadasdada:[1,2,3,4,4],asdasd:{
-    //     sadasd:23
-    //   }
-    // }
-
     this.http.post('http://127.0.0.1:3333/chats',{mensaje:mensaje,UsersArray:UsersArray}).subscribe(res=>{
       console.log(res)
+     // localStorage.setItem('token',res+);
     
     });
+    
 
   }
   setUpChat(){
