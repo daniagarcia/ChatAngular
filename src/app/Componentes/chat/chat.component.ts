@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
 import { ClienteService } from '../../Servicos/cliente.service';
+import { mergeNsAndName } from '@angular/compiler';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -13,11 +14,31 @@ export class ChatComponent implements OnInit {
   ws = Ws('ws://localhost:3333');
   users: any[] = []
   conversando: any = null;
+  usernameChat :string="Default";
+  idusuarios:string="";
 
   clickUsuario(user: any) {
-    this.conversando = { 'user': user,'username':this.username }
+    this.conversando = { 'user': user }
+    this.usernameChat=user.username;
+
+    console.log(user)
+    console.log(this.conversando)
+
+    
+      const id_usu = localStorage.getItem('id_user')
+      var UsersArray=[id_usu,this.conversando.user.id]
+      UsersArray.sort()
+      var ArrayUsers=UsersArray.join('-')
+      console.log(ArrayUsers)
+      //const idusuarios = localStorage.getItem('')
+      this.http.get<any>('http://127.0.0.1:3333/chats/').subscribe(res => {
+        console.log(res)
+        // this.users = res.users
+    });
+    // const userdos=localStorage.getItem('user')
 
   }
+  
 
   username: string;
   constructor(private route: ActivatedRoute,
@@ -27,6 +48,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.username = localStorage.getItem('usuario');
+    // this.SendMensaje(event);  
 
     // this.mensaje=localStorage.getItem('mensaje')
 
