@@ -14,31 +14,30 @@ export class ChatComponent implements OnInit {
   ws = Ws('ws://localhost:3333');
   users: any[] = []
   conversando: any = null;
-  usernameChat :string="Default";
-  idusuarios:string="";
+  usernameChat: string = "Default";
+  idusuarios: any = null;
 
   clickUsuario(user: any) {
     this.conversando = { 'user': user }
-    this.usernameChat=user.username;
-
+    this.usernameChat = user.username;
     console.log(user)
     console.log(this.conversando)
 
-    
-      const id_usu = localStorage.getItem('id_user')
-      var UsersArray=[id_usu,this.conversando.user.id]
-      UsersArray.sort()
-      var ArrayUsers=UsersArray.join('-')
-      console.log(ArrayUsers)
-      //const idusuarios = localStorage.getItem('')
-      this.http.get<any>('http://127.0.0.1:3333/chats/').subscribe(res => {
-        console.log(res)
-        // this.users = res.users
+
+    const id_usu = localStorage.getItem('id_user')
+    var UsersArray = [id_usu, this.conversando.user.id]
+    UsersArray.sort()
+    var ArrayUsers = UsersArray.join('_')
+    console.log(ArrayUsers)
+    //const idusuarios = localStorage.getItem('')
+    this.http.get<any>('http://127.0.0.1:3333/chats/:'+ArrayUsers).subscribe(res => {
+      console.log(res)
+      // this.users = res.users
     });
     // const userdos=localStorage.getItem('user')
 
   }
-  
+
 
   username: string;
   constructor(private route: ActivatedRoute,
@@ -68,16 +67,13 @@ export class ChatComponent implements OnInit {
     var ArrayUsers = [id_usu, this.conversando.user.id]
 
     ArrayUsers.sort()
-    var UsersArray = ArrayUsers.join('-')
+    var UsersArray = ArrayUsers.join('_')
     console.log(mensaje)
 
     this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: UsersArray }).subscribe(res => {
       console.log(res)
       console.log(mensaje)
-      // localStorage.setItem('token',res+);
-
     });
-
 
   }
   setUpChat() {
