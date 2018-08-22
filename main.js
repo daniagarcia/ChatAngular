@@ -11,9 +11,7 @@ function createWindow () {
     icon: `./dist/assets/logo.png`
   })
 
-
   win.loadFile(`./dist/index.html`)
-
   //// uncomment below to open the DevTools.
   // win.webContents.openDevTools()
 
