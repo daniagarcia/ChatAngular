@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
 import { ClienteService } from '../../Servicos/cliente.service';
 import { mergeNsAndName } from '@angular/compiler';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -16,12 +17,14 @@ export class ChatComponent implements OnInit {
   conversando: any = null;
   usernameChat: string = "Default";
   idusuarios: any = null;
+  mensajes:Message;
+
 
   clickUsuario(user: any) {
     this.conversando = { 'user': user }
     this.usernameChat = user.username;
-    console.log(user)
-    console.log(this.conversando)
+    // console.log(user)
+    // console.log(this.conversando)
 
 
     const id_usu = localStorage.getItem('id_user')
@@ -30,8 +33,9 @@ export class ChatComponent implements OnInit {
     var ArrayUsers = UsersArray.join('_')
     console.log(ArrayUsers)
     //const idusuarios = localStorage.getItem('')
-    this.http.get<any>('http://127.0.0.1:3333/chats/:'+ArrayUsers).subscribe(res => {
-      console.log(res)
+    this.http.get<any>('http://127.0.0.1:3333/chats/'+ArrayUsers).subscribe(res => {
+      this.mensajes=res
+      console.log(this.mensajes)
       // this.users = res.users
     });
     // const userdos=localStorage.getItem('user')

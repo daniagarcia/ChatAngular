@@ -11,7 +11,7 @@
 
 		<div id="contacts">
 			<ul>
-				<li *ngFor="let user of users;" (click)="clickUsuario(user,user.username)" class="contact">
+				<li *ngFor="let user of users;" (click)="clickUsuario(user)" class="contact">
 					<div class="wrap">
 						<span class="contact-status online"></span>
 						<img src="assets/perfil.jpg" alt="" />
@@ -44,7 +44,7 @@
 			<p></p>
 		</div>
   
-		<div  class="messages">
+		<div  *ngFor="let msj of mensajes;"  class="messages">
 			<ul>
 				<li class="sent">
 					<h6>{{username}}</h6>
@@ -54,7 +54,7 @@
 					border: 2px solid #1fcf45;
 					height: 40px;
 					object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
-					<p></p>
+					<p>{{msj.mensajes}}</p>
 				</li>
 				<li class="replies">
 					<h6 style="float: right;" >{{conversando.user.username}}</h6>
@@ -64,7 +64,7 @@
 					border: 2px solid #1fcf45;
 					height: 40px;
 					object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
-					<p>{{mensaje}}</p>
+					<p>{{msj.mensajes}}</p>
 				</li>
 			</ul>
 		</div>
