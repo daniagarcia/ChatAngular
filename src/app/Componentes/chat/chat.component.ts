@@ -5,23 +5,27 @@ import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
 import { ClienteService } from '../../Servicos/cliente.service';
 import { mergeNsAndName } from '@angular/compiler';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { Message } from '../../Clases/Message';
+
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
+
 export class ChatComponent implements OnInit {
   ws = Ws('ws://localhost:3333');
   users: any[] = []
   conversando: any = null;
   usernameChat: string = "Default";
   idusuarios: any = null;
-  mensajes:Message;
+  mensajes: Message;
   canal: any;
 
   clickUsuario(user: any) {
     this.canal.close()
+
     this.conversando = { 'user': user }
     this.usernameChat = user.username;
     // console.log(user)
@@ -35,8 +39,9 @@ export class ChatComponent implements OnInit {
     console.log(ArrayUsers)
     this.subscribirCanal(ArrayUsers)
     //const idusuarios = localStorage.getItem('')
-    this.http.get<any>('http://127.0.0.1:3333/chats/'+ArrayUsers).subscribe(res => {
-      this.mensajes=res
+    this.http.get<any>('http://127.0.0.1:3333/chats/' + ArrayUsers).subscribe(res => {
+      this.mensajes = res
+      
       console.log(this.mensajes)
       // this.users = res.users
     });
@@ -71,59 +76,57 @@ export class ChatComponent implements OnInit {
     const target = event.target
     const mensaje = target.querySelector('#msj').value;
     const id_usu = localStorage.getItem('id_user')
+    const id_usuario = localStorage.getItem('id_usuario')
+    
     var ArrayUsers = [id_usu, this.conversando.user.id]
 
     ArrayUsers.sort()
     var UsersArray = ArrayUsers.join('_')
     console.log(mensaje)
 
-    this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: UsersArray }).subscribe(res => {
+    this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: UsersArray, id_usuario:id_usu }).subscribe(res => {
       console.log(res)
       console.log(mensaje)
     });
 
   }
 
-  iniciarConexion(){
+  iniciarConexion() {
     this.ws = new Ws('ws:/localhost:3333').connect();
-    this.ws.on('open',data => {
-      console.log('se conecto!c:');
-      // this.subscribirCanal();
-        // this.ws.getSubscription('chat').emit('message','me conecte!:Dñ.ñ')
+    this.ws.on('open', data => {
+
+
+
     })
-    this.ws.on('error',data => {
-      console.log('Error de conexión :c')
+    this.ws.on('error', data => {
+
     })
-    
+    this.canal = this.ws.subscribe('chat:Libre')
+
+  }
+  subscribirCanal(room: String) {
+    this.canal = this.ws.subscribe('chat:10')
+    this.ws.getSubscription('chat:10').emit('entrar', 'Este es el room')
+
+    this.canal.on('error', data => {
+
+    })
+
+    this.canal.on('message', data => {
+
+
+    })
+    this.canal.on('entrar', data => {
+      console.log('acaba de entrar un usuario')
+    })
+
+    this.canal.on('close', data => {
+
+    })
+
   }
 
-  subscribirCanal(room : String){
-    this.canal  = this.ws.subscribe('chat:'+room)
-    this.ws.getSubscription('chat:'+room).emit('message','Este es el room')
-    console.log('SUBSCRITO AL CANAL CHAT ')
 
-    this.canal.on('error',data => {
-      console.log('error al suscribir canal')
-    })
-
-    this.canal.on('message',data => {
-      console.log(data)
-      
-    })
-
-    this.canal.on('open',data => {
-      console.log()
-      //this.ws.getSubscription('chat:'+room).emit('open','Este es el room')
-    })
-
-    this.canal.on('close',data => {
-      console.log(data)
-      //this.ws.getSubscription('chat:'+room).emit('close','Este es el room')
-    })
-    
-  }
-
-  
 
 
 }

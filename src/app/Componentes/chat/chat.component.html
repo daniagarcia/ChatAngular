@@ -44,8 +44,8 @@
 			<p></p>
 		</div>
   
-		<div  *ngFor="let msj of mensajes;"  class="messages">
-			<ul>
+		<div   class="messages">
+			<ul *ngFor="let msj of mensajes;" >
 				<li class="sent">
 					<h6>{{username}}</h6>
 					<img style="width: 40px;
@@ -54,7 +54,7 @@
 					border: 2px solid #1fcf45;
 					height: 40px;
 					object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
-					<p>{{msj.mensajes}}</p>
+					<p>{{msj.mensajes.id_usuario}}</p>
 				</li>
 				<li class="replies">
 					<h6 style="float: right;" >{{conversando.user.username}}</h6>
@@ -64,7 +64,7 @@
 					border: 2px solid #1fcf45;
 					height: 40px;
 					object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
-					<p>{{msj.mensajes}}</p>
+					<p>{{msj.mensajes.id_usuario}}</p>
 				</li>
 			</ul>
 		</div>
