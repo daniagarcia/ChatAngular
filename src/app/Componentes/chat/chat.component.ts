@@ -18,9 +18,10 @@ export class ChatComponent implements OnInit {
   usernameChat: string = "Default";
   idusuarios: any = null;
   mensajes:Message;
-
+  canal: any;
 
   clickUsuario(user: any) {
+    this.canal.close()
     this.conversando = { 'user': user }
     this.usernameChat = user.username;
     // console.log(user)
@@ -32,6 +33,7 @@ export class ChatComponent implements OnInit {
     UsersArray.sort()
     var ArrayUsers = UsersArray.join('_')
     console.log(ArrayUsers)
+    this.subscribirCanal(ArrayUsers)
     //const idusuarios = localStorage.getItem('')
     this.http.get<any>('http://127.0.0.1:3333/chats/'+ArrayUsers).subscribe(res => {
       this.mensajes=res
@@ -51,6 +53,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.username = localStorage.getItem('usuario');
+    this.iniciarConexion()
     // this.SendMensaje(event);  
 
     // this.mensaje=localStorage.getItem('mensaje')
@@ -80,18 +83,47 @@ export class ChatComponent implements OnInit {
     });
 
   }
-  setUpChat() {
-    this.ws.connect();
-    const chat = this.ws.subscribe('chat');
 
-    chat.on('new:msj', (data) => {
-
-      console.log(' SOY UN MENSAJE ')
-
-      this.conversando.unshift(JSON.parse(data));
-      console.log(data)
+  iniciarConexion(){
+    this.ws = new Ws('ws:/localhost:3333').connect();
+    this.ws.on('open',data => {
+      console.log('se conecto!c:');
+      // this.subscribirCanal();
+        // this.ws.getSubscription('chat').emit('message','me conecte!:Dñ.ñ')
     })
+    this.ws.on('error',data => {
+      console.log('Error de conexión :c')
+    })
+    
   }
+
+  subscribirCanal(room : String){
+    this.canal  = this.ws.subscribe('chat:'+room)
+    this.ws.getSubscription('chat:'+room).emit('message','Este es el room')
+    console.log('SUBSCRITO AL CANAL CHAT ')
+
+    this.canal.on('error',data => {
+      console.log('error al suscribir canal')
+    })
+
+    this.canal.on('message',data => {
+      console.log(data)
+      
+    })
+
+    this.canal.on('open',data => {
+      console.log()
+      //this.ws.getSubscription('chat:'+room).emit('open','Este es el room')
+    })
+
+    this.canal.on('close',data => {
+      console.log(data)
+      //this.ws.getSubscription('chat:'+room).emit('close','Este es el room')
+    })
+    
+  }
+
+  
 
 
 }
