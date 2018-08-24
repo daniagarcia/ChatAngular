@@ -93,10 +93,11 @@ export class ChatComponent implements OnInit {
       console.log(mensaje)
     });
     this.ws.getSubscription('chat:'+ this.room).emit('message',
-  {
-    id:UsersArray
-  }
+      {
+        id:UsersArray
+      }
   )
+  target.querySelector("#msj").value=''
 
   }
 
