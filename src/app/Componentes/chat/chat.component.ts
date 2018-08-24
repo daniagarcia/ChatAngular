@@ -22,6 +22,8 @@ export class ChatComponent implements OnInit {
   idusuarios: any = null;
   mensajes: Message;
   canal: any;
+  id:string;
+  room:string='';
 
   clickUsuario(user: any) {
     this.canal.close()
@@ -36,17 +38,18 @@ export class ChatComponent implements OnInit {
     var UsersArray = [id_usu, this.conversando.user.id]
     UsersArray.sort()
     var ArrayUsers = UsersArray.join('_')
-    console.log(ArrayUsers)
+    this.room= ArrayUsers
     this.subscribirCanal(ArrayUsers)
     //const idusuarios = localStorage.getItem('')
+    //PETEICION
+      //  REQUEST
     this.http.get<any>('http://127.0.0.1:3333/chats/' + ArrayUsers).subscribe(res => {
       this.mensajes = res
-      
+    
       console.log(this.mensajes)
       // this.users = res.users
     });
-    // const userdos=localStorage.getItem('user')
-
+ 
   }
 
 
@@ -58,6 +61,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.username = localStorage.getItem('usuario');
+    this.id = localStorage.getItem('id_user')
     this.iniciarConexion()
     // this.SendMensaje(event);  
 
@@ -88,6 +92,11 @@ export class ChatComponent implements OnInit {
       console.log(res)
       console.log(mensaje)
     });
+    this.ws.getSubscription('chat:'+ this.room).emit('message',
+  {
+    id:UsersArray
+  }
+  )
 
   }
 
@@ -105,8 +114,9 @@ export class ChatComponent implements OnInit {
 
   }
   subscribirCanal(room: String) {
-    this.canal = this.ws.subscribe('chat:10')
-    this.ws.getSubscription('chat:10').emit('entrar', 'Este es el room')
+    this.canal = this.ws.subscribe('chat:'+this.room)
+    // this.ws.getSubscription('chat:10').emit('entrar', 'Este es el room')
+    
 
     this.canal.on('error', data => {
 
@@ -114,7 +124,14 @@ export class ChatComponent implements OnInit {
 
     this.canal.on('message', data => {
 
-
+      this.http.get<any>('http://127.0.0.1:3333/chats/' + data.id).subscribe(res => {
+        this.mensajes = res
+      
+        console.log(this.mensajes)
+        // this.users = res.users
+      });
+   
+     
     })
     this.canal.on('entrar', data => {
       console.log('acaba de entrar un usuario')

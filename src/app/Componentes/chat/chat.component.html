@@ -44,28 +44,36 @@
 			<p></p>
 		</div>
   
-		<div   class="messages">
+		<div class="messages">
 			<ul *ngFor="let msj of mensajes;" >
-				<li class="sent">
-					<h6>{{username}}</h6>
-					<img style="width: 40px;
-					border-radius: 50%;
-					padding: 3px;
-					border: 2px solid #1fcf45;
-					height: 40px;
-					object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
-					<p>{{msj.mensajes.id_usuario}}</p>
-				</li>
-				<li class="replies">
-					<h6 style="float: right;" >{{conversando.user.username}}</h6>
-					<img style="width: 40px;
-					border-radius: 50%;
-					padding: 3px;
-					border: 2px solid #1fcf45;
-					height: 40px;
-					object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
-					<p>{{msj.mensajes.id_usuario}}</p>
-				</li>
+				<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
+				<ng-template #thenBlock>
+						<li class="sent">
+								<h6>{{username}}</h6>
+								<img style="width: 40px;
+								border-radius: 50%;
+								padding: 3px;
+								border: 2px solid #1fcf45;
+								height: 40px;
+								object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
+								<p>{{msj.mensajes}}</p>
+							</li>				
+				</ng-template>
+				<ng-template #elseBlock>
+						<li class="replies">
+								<h6 style="float: right;" >{{conversando.user.username}}</h6>
+								<img style="width: 40px;
+								border-radius: 50%;
+								padding: 3px;
+								border: 2px solid #1fcf45;
+								height: 40px;
+								object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
+								<p>{{msj.mensajes}}</p>
+							</li>
+				</ng-template>
+
+				
+				
 			</ul>
 		</div>
 		<form (submit)="SendMensaje($event)"  >
