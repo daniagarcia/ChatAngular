@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../Servicos/authentication.service';
 import { ClienteService } from '../../Servicos/cliente.service';
 import { mergeNsAndName } from '@angular/compiler';
 import { Message } from '../../Clases/Message';
+import { Grupos } from '../../Clases/Grupos';
 
 
 @Component({
@@ -24,7 +25,10 @@ export class ChatComponent implements OnInit {
   canal: any;
   id:string;
   room:string='';
+  modal:boolean=false;
 
+
+  
   clickUsuario(user: any) {
     this.canal.close()
 
@@ -52,7 +56,6 @@ export class ChatComponent implements OnInit {
  
   }
 
-
   username: string;
   constructor(private route: ActivatedRoute,
     private router: Router, private http: HttpClient,
@@ -78,7 +81,7 @@ export class ChatComponent implements OnInit {
   SendMensaje(event) {
     event.preventDefault()
     const target = event.target
-    const mensaje = target.querySelector('#msj').value;
+    const mensaje = target.querySelector('#msj').value
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario')
     
@@ -140,6 +143,34 @@ export class ChatComponent implements OnInit {
 
     this.canal.on('close', data => {
 
+    })
+
+  }
+
+  crearGrupo(event){
+    event.preventDefault()
+    console.log("algo")
+    const target = event.target
+    const grupo = target.querySelector('#grupo').value
+    const id_usu = localStorage.getItem('id_user')
+
+    console.log(grupo)
+    if(grupo != ''){
+      this.http.post('http://127.0.0.1:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
+
+      })
+
+
+    }
+    
+  }
+       grupos:Grupos
+
+  RecuperarGrupos(){
+    const id_usu = localStorage.getItem('id_user')
+    this.http.post<Grupos>('http://127.0.0.1:3333/grupos/'+id_usu,{}).subscribe(res =>{
+      this.grupos=res
+      console.log(this.grupos)
     })
 
   }
