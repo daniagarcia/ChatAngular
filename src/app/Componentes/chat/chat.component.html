@@ -23,19 +23,22 @@
 				</li>
 			</ul>
 		</div>
+
+
+		<!-- <div id="bottom-bar">
+			<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+		</div> -->
 		<!-- BOTON CREAR GRUPOS -->
 		<div  id="bottom-bar">
-			<button (click)="modal=true" id="addcontact" style="width: 100%">
+			<!-- <button  id="addcontact" style="width: 100%">
 				<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
 				<span>Grupo</span>
-			</button>
+			</button> -->
+			<button (click)="modal=true" id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Grupo</span></button>
+			<button (submit)="RecuperarGrupos()" (click)="modalgrupo=true" id=""><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Añadir a Grupo</span></button>
 		</div>
-		<div  id="bottom-bar">
-			<button (click)="modal=true" id="addcontact" style="width: 100%">
-				<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
-				<span>Añadir Usuarios</span>
-			</button>
-		</div>
+	
 	</div>
 	<!-- aqui -->
 	<div *ngIf="conversando" class="content">
@@ -80,6 +83,7 @@
 				
 			</ul>
 		</div>
+
 		<form (submit)="SendMensaje($event)" >
 			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
@@ -91,7 +95,9 @@
 				</div>
 			</div>
 		</form>
+
 	</div>
+<!-- moda crar grupo -->
 	<div *ngIf="modal" class="modal  is-active" >
 		<div class="modal-background"></div>
 		<div class="modal-content">
@@ -103,19 +109,30 @@
 		</div>
 		<button (click)='modal=false' class="modal-close is-large" aria-label="close"></button>
 	  </div>
+	  <!-- fin moda crar grupo -->
+	  
 
 	  <div *ngIf="modalgrupo" class="modal  is-active" >
 		<div class="modal-background"></div>
 		<div class="modal-content">
-			<form (submit)="crearGrupo($event)">
-					<select>
-						<option value="">UNO</option>
+			<form>
+				<label for="">Grupos</label>
+					<select class="form-control" >
+						<option *ngFor="let grup of grupo;" value="">{{grup.nombre}}</option>
 					</select>
-					<button  class="btn btn-primary" height="50px" width="50px">Crear</button>
-			</form>
+				</form>
+
+				<form  action="">
+				<label for="">Usuarios</label>
+					<select  class="form-control" >
+						<option *ngFor="let user of users;" value="">{{user.username}}</option>
+					</select>
+					<br>
+					<button  class="btn btn-primary" height="50px" width="50px">Añadir</button>
+				</form>
 		
 		</div>
-		<button (click)='modal=false' class="modal-close is-large" aria-label="close"></button>
+		<button (click)='modalgrupo=false' class="modal-close is-large" aria-label="close"></button>
 	  </div>
 
 

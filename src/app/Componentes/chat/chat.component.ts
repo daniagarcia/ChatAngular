@@ -107,21 +107,16 @@ export class ChatComponent implements OnInit {
 
   iniciarConexion() {
     this.ws = new Ws('ws:/localhost:3333').connect();
-    this.ws.on('open', data => {
-
-
-
+      this.ws.on('open', data => {
     })
     this.ws.on('error', data => {
-
     })
     this.canal = this.ws.subscribe('chat:Libre')
 
   }
   subscribirCanal(room: String) {
     this.canal = this.ws.subscribe('chat:'+this.room)
-    // this.ws.getSubscription('chat:10').emit('entrar', 'Este es el room')
-    
+    // this.ws.getSubscription('chat:10').emit('entrar', 'Este es el room')    
 
     this.canal.on('error', data => {
 
@@ -130,12 +125,10 @@ export class ChatComponent implements OnInit {
     this.canal.on('message', data => {
 
       this.http.get<any>('http://127.0.0.1:3333/chats/' + data.id).subscribe(res => {
-        this.mensajes = res
-      
+        this.mensajes = res      
         console.log(this.mensajes)
         // this.users = res.users
-      });
-   
+      });   
      
     })
     this.canal.on('entrar', data => {
@@ -158,9 +151,7 @@ export class ChatComponent implements OnInit {
     console.log(grupo)
     if(grupo != ''){
       this.http.post('http://127.0.0.1:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
-
       })
-
 
     }
     
@@ -179,10 +170,10 @@ export class ChatComponent implements OnInit {
   RecuperarUsuarios(){
     this.username = localStorage.getItem('usuario');
     this.id = localStorage.getItem('id_user')
-    this.http.post<any>('http://127.0.0.1:3333/grupos',listUsuarios:this.listUsuarios).subscribe(res =>{
-      this.listUsuarios=res
-      // console.log(this.grupos)
-    })
+    // this.http.post<any>('http://127.0.0.1:3333/grupos',listUsuarios:this.listUsuarios).subscribe(res =>{
+    //   this.listUsuarios=res
+    //   // console.log(this.grupos)
+    // })
 
   }
 
