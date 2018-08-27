@@ -26,7 +26,8 @@ export class ChatComponent implements OnInit {
   id:string;
   room:string='';
   modal:boolean=false;
-
+  modalgrupo:boolean=false;
+  listUsuarios:any[]=[]
 
   
   clickUsuario(user: any) {
@@ -168,9 +169,19 @@ export class ChatComponent implements OnInit {
 
   RecuperarGrupos(){
     const id_usu = localStorage.getItem('id_user')
-    this.http.post<Grupos>('http://127.0.0.1:3333/grupos/'+id_usu,{}).subscribe(res =>{
+    this.http.get<Grupos>('http://127.0.0.1:3333/grupos/'+id_usu).subscribe(res =>{
       this.grupos=res
       console.log(this.grupos)
+    })
+
+  }
+
+  RecuperarUsuarios(){
+    this.username = localStorage.getItem('usuario');
+    this.id = localStorage.getItem('id_user')
+    this.http.post<any>('http://127.0.0.1:3333/grupos',listUsuarios:this.listUsuarios).subscribe(res =>{
+      this.listUsuarios=res
+      // console.log(this.grupos)
     })
 
   }
