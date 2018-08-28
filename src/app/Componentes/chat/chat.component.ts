@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../../Servicos/authentication.service';
 import { ClienteService } from '../../Servicos/cliente.service';
-import { mergeNsAndName } from '@angular/compiler';
+import { mergeNsAndName, removeSummaryDuplicates } from '@angular/compiler';
 import { Message } from '../../Clases/Message';
 import { Grupos } from '../../Clases/Grupos';
 
@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   users: any[] = []
   conversando: any = null;
   usernameChat: string = "Default";
+  nombreGrupo: string = "Default";
   idusuarios: any = null;
   mensajes: Message;
   canal: any;
@@ -32,31 +33,39 @@ export class ChatComponent implements OnInit {
   
   clickUsuario(user: any) {
     this.canal.close()
-
     this.conversando = { 'user': user }
     this.usernameChat = user.username;
-    // console.log(user)
-    // console.log(this.conversando)
-
-
     const id_usu = localStorage.getItem('id_user')
     var UsersArray = [id_usu, this.conversando.user.id]
     UsersArray.sort()
     var ArrayUsers = UsersArray.join('_')
     this.room= ArrayUsers
     this.subscribirCanal(ArrayUsers)
-    //const idusuarios = localStorage.getItem('')
-    //PETEICION
-      //  REQUEST
+      //PETEICION //  REQUEST
     this.http.get<any>('http://127.0.0.1:3333/chats/' + ArrayUsers).subscribe(res => {
-      this.mensajes = res
-    
+      this.mensajes = res    
       console.log(this.mensajes)
-      // this.users = res.users
-    });
+   });
  
   }
 
+  clickGrupo(usergrupo: any) {
+    this.canal.close()
+    this.conversando = { 'user':{
+      'username': usergrupo.nombre 
+    } 
+  }
+    // this.conversando.username = usergrupo.nombre
+    this.nombreGrupo = usergrupo.nombre;
+    this.room= usergrupo.id
+    this.subscribirCanal(this.room)
+      //PETEICION //  REQUEST
+    this.http.get<any>('http://127.0.0.1:3333/chats/' + this.room).subscribe(res => {
+      this.room = res    
+      this.mensajes=res
+   });
+ 
+  }
   username: string;
   constructor(private route: ActivatedRoute,
     private router: Router, private http: HttpClient,
@@ -87,21 +96,17 @@ export class ChatComponent implements OnInit {
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario')
     
-    var ArrayUsers = [id_usu, this.conversando.user.id]
+    // var ArrayUsers = [id_usu, this.conversando.user.id]
 
-    ArrayUsers.sort()
-    var UsersArray = ArrayUsers.join('_')
-    console.log(mensaje)
+    // ArrayUsers.sort()
+    // var UsersArray = ArrayUsers.join('_')
+    // console.log(mensaje)
 
-    this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: UsersArray, id_usuario:id_usu }).subscribe(res => {
+    this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu }).subscribe(res => {
       console.log(res)
       console.log(mensaje)
     });
-    this.ws.getSubscription('chat:'+ this.room).emit('message',
-      {
-        id:UsersArray
-      }
-  )
+    this.ws.getSubscription('chat:'+ this.room).emit('message','')
   target.querySelector("#msj").value=''
 
   }
