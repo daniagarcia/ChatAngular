@@ -22,21 +22,30 @@
 					</div>	
 				</li>
 			</ul>
+			<br>
+			<ul>
+				<li *ngFor="let usergrupo of gruposuser;"  class="contact">
+					<div class="wrap">
+						<span class="contact-status online"></span>
+						<img src="assets/perfil.jpg" alt="" />
+						<div class="meta">
+							<p class="name" id="nameuser">{{usergrupo.nombre}}</p>
+							<p class="preview"></p>
+						</div>
+					</div>	
+				</li>
+			</ul>
+		</div>
+
+		<div id="contacts">
+			
 		</div>
 
 
-		<!-- <div id="bottom-bar">
-			<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-		</div> -->
 		<!-- BOTON CREAR GRUPOS -->
 		<div  id="bottom-bar">
-			<!-- <button  id="addcontact" style="width: 100%">
-				<i class="fa fa-user-plus fa-fw" aria-hidden="true"></i>
-				<span>Grupo</span>
-			</button> -->
 			<button (click)="modal=true" id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Grupo</span></button>
-			<button (submit)="RecuperarGrupos()" (click)="modalgrupo=true" id=""><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Añadir a Grupo</span></button>
+			<button (click)="RecuperarGrupos()" id=""><i class="" aria-hidden="true"></i> <span>Añadir a Grupo</span></button>
 		</div>
 	
 	</div>
@@ -115,17 +124,15 @@
 	  <div *ngIf="modalgrupo" class="modal  is-active" >
 		<div class="modal-background"></div>
 		<div class="modal-content">
-			<form>
+			<form (submit)="AgregarUsuarios($event)"> 
 				<label for="">Grupos</label>
-					<select class="form-control" >
-						<option *ngFor="let grup of grupo;" value="">{{grup.nombre}}</option>
+					<select  id='grupoid' class="form-control" >
+						<option *ngFor="let grupo of grupos;"value="{{grupo.id}}">{{grupo.nombre}}</option>
 					</select>
-				</form>
-
-				<form  action="">
+		
 				<label for="">Usuarios</label>
-					<select  class="form-control" >
-						<option *ngFor="let user of users;" value="">{{user.username}}</option>
+					<select  id='userid'  class="form-control" >
+						<option *ngFor="let user of users;" value="{{user.id}}">{{user.username}}</option>
 					</select>
 					<br>
 					<button  class="btn btn-primary" height="50px" width="50px">Añadir</button>

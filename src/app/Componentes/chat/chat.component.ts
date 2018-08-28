@@ -67,6 +67,7 @@ export class ChatComponent implements OnInit {
     this.username = localStorage.getItem('usuario');
     this.id = localStorage.getItem('id_user')
     this.iniciarConexion()
+    this.RecuperarGrupoUsuario()
     // this.SendMensaje(event);  
 
     // this.mensaje=localStorage.getItem('mensaje')
@@ -159,7 +160,9 @@ export class ChatComponent implements OnInit {
        grupos:Grupos
 
   RecuperarGrupos(){
+     this.modalgrupo = true;
     const id_usu = localStorage.getItem('id_user')
+
     this.http.get<Grupos>('http://127.0.0.1:3333/grupos/'+id_usu).subscribe(res =>{
       this.grupos=res
       console.log(this.grupos)
@@ -167,13 +170,30 @@ export class ChatComponent implements OnInit {
 
   }
 
-  RecuperarUsuarios(){
-    this.username = localStorage.getItem('usuario');
-    this.id = localStorage.getItem('id_user')
-    // this.http.post<any>('http://127.0.0.1:3333/grupos',listUsuarios:this.listUsuarios).subscribe(res =>{
-    //   this.listUsuarios=res
-    //   // console.log(this.grupos)
-    // })
+  AgregarUsuarios(event){
+    event.preventDefault()
+    const target = event.target
+    const grupo_id = target.querySelector("#grupoid").value;
+    const user_id = target.querySelector("#userid").value;
+    console.log(grupo_id)
+    console.log(user_id)
+
+
+    this.http.post('http://127.0.0.1:3333/gruposusers',{grupo:grupo_id,usuario:user_id}).subscribe(res =>{
+     console.log(res)
+    
+    })
+
+  }
+      gruposuser:Grupos
+  RecuperarGrupoUsuario(){
+    const id_usu = localStorage.getItem('id_user')
+
+    this.http.get<any>('http://127.0.0.1:3333/gruposusers/'+id_usu).subscribe(res =>{
+      this.gruposuser = res
+
+      // console.log(this.grupos)
+    })
 
   }
 
