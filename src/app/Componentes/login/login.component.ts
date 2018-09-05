@@ -30,11 +30,11 @@ export class LoginComponent implements OnInit {
     const psw = target.querySelector('#psw').value
     console.log(usu, psw)
     // localStorage.getItem('id_user')
-     this.http.post<any>('http://127.0.0.1:3333/login',{usu:usu,psw:psw}).subscribe(res=>{
+     this.http.post<any>('http://192.168.43.151:3333/login',{usu:usu,psw:psw}).subscribe(res=>{
        console.log(res)
        localStorage.setItem('token',res.sesion.token);
-       localStorage.setItem('usuario',res.user.username);
-       localStorage.setItem('id_user',res.user.id);
+       localStorage.setItem('usuario',res.usuario.username);
+       localStorage.setItem('id_user',res.usuario.id);
 
        this.router.navigate(['chat']);
      });
