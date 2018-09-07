@@ -11,6 +11,8 @@ import { ChatComponent } from './Componentes/chat/chat.component';
 import { NavbarComponent } from './Componentes/navbar/navbar.component';
 import { LoginComponent } from './Componentes/login/login.component';
 import { RegistroComponent } from './Componentes/registro/registro.component';
+import { HistorialComponent } from './Componentes/historial/historial.component';
+
 //notificaciones
 import { NotifyModule } from 'ngx-notify';
 //servicios
@@ -20,12 +22,15 @@ import {ChatService} from './Servicos/chat.service'
 //clases
 import { User } from './Clases/User';
 import { Message } from './Clases/Message';
+import { AuthGuard } from './Guards/auth.guard';
+import { LoginGuard } from './Guards/login.guard';
 
 
 const routes :Routes = [
-  {path:'registro',component:RegistroComponent},
-  {path:'chat', component: ChatComponent},
-  {path:'login', component: LoginComponent},
+  {path:'registro',component:RegistroComponent, canActivate: [LoginGuard]},
+  {path:'chat', component: ChatComponent,canActivate:[AuthGuard]},  
+  {path:'historial',component:HistorialComponent},
+  {path:'', component: LoginComponent,canActivate:[LoginGuard]},
   {path: '**',   redirectTo: '', pathMatch: 'full' }
  
 
@@ -42,7 +47,8 @@ const routes :Routes = [
     ChatComponent,
     NavbarComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    HistorialComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +65,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [AuthenticationService,User,ClienteService,ChatService,Message],
+  providers: [AuthenticationService,User,ClienteService,ChatService,Message,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,19 @@
+
+<div class="container">
+  <h2>Historial</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Mensaje</th>
+      </tr>
+    </thead>
+    <tbody>   
+      <tr *ngFor='let msj of mensajes ' class="info">
+        <td>{{msj.username}}</td>
+        <td>{{msj.mensajes}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
