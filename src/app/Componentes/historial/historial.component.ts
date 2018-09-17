@@ -21,7 +21,7 @@ export class HistorialComponent implements OnInit {
 
   ConsultaHistorial(){
 
-    this.http.get<any>('http://192.168.43.151:3333/chats').subscribe(res => {
+    this.http.get<any>('http://192.168.1.130:3333/chats').subscribe(res => {
       this.mensajes=res
 
     })

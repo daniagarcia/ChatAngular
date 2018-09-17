@@ -19,6 +19,7 @@ import { NotifyModule } from 'ngx-notify';
 import { AuthenticationService } from './Servicos/authentication.service';
 import { ClienteService } from './Servicos/cliente.service';
 import {ChatService} from './Servicos/chat.service'
+import {Subirarchivo} from './Servicos/subirarchivos.service'
 //clases
 import { User } from './Clases/User';
 import { Message } from './Clases/Message';
@@ -65,7 +66,7 @@ const routes :Routes = [
 
 
   ],
-  providers: [AuthenticationService,User,ClienteService,ChatService,Message,AuthGuard],
+  providers: [AuthenticationService,User,ClienteService,ChatService,Message,AuthGuard,Subirarchivo],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

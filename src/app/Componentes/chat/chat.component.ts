@@ -7,6 +7,8 @@ import { ClienteService } from '../../Servicos/cliente.service';
 import { mergeNsAndName, removeSummaryDuplicates } from '@angular/compiler';
 import { Message } from '../../Clases/Message';
 import { Grupos } from '../../Clases/Grupos';
+import {Subirarchivo} from '../../Servicos/subirarchivos.service'
+import { environment } from '../../../environments/environment.prod';
 
 
 @Component({
@@ -16,7 +18,7 @@ import { Grupos } from '../../Clases/Grupos';
 })
 
 export class ChatComponent implements OnInit {
-  ws = Ws('ws://192.168.43.151:3333');
+  ws = Ws('ws://192.168.1.130:3333');
   users: any[] = []
   conversando: any = null;
   usernameChat: string = "Default";
@@ -30,6 +32,12 @@ export class ChatComponent implements OnInit {
   modalgrupo:boolean=false;
   listUsuarios:any[]=[]
 
+  trueimg:Boolean = false;
+  loader:Boolean = false;
+  myimg:string;
+  final:Boolean = true;
+  msn:string;
+
   
   clickUsuario(user: any) {
     this.canal.close()
@@ -42,7 +50,7 @@ export class ChatComponent implements OnInit {
     this.room= ArrayUsers
     this.subscribirCanal(ArrayUsers)
       //PETEICION //  REQUEST
-    this.http.get<any>('http://192.168.43.151:3333/chats/' + ArrayUsers).subscribe(res => {
+    this.http.get<any>('http://192.168.1.130:3333/chats/' + ArrayUsers).subscribe(res => {
       this.mensajes = res    
       console.log(this.mensajes)
    });
@@ -59,7 +67,7 @@ export class ChatComponent implements OnInit {
     this.room= usergrupo.id
     this.subscribirCanal(this.room)
       //PETEICION //  REQUEST
-    this.http.get<any>('http://192.168.43.151:3333/chats/' + this.room).subscribe(res => {
+    this.http.get<any>('http://192.168.1.130:3333/chats/' + this.room).subscribe(res => {
       this.mensajes=res
    });
  
@@ -67,7 +75,7 @@ export class ChatComponent implements OnInit {
   username: string;
   constructor(private route: ActivatedRoute,
     private router: Router, private http: HttpClient,
-    private authenticationService: AuthenticationService, private cliente: ClienteService) {
+    private authenticationService: AuthenticationService, private cliente: ClienteService, private archivo:Subirarchivo) {
   }
 
   ngOnInit() {
@@ -79,7 +87,7 @@ export class ChatComponent implements OnInit {
 
     // this.mensaje=localStorage.getItem('mensaje')
 
-    this.http.get<any>('http://192.168.43.151:3333/users').subscribe(res => {
+    this.http.get<any>('http://192.168.1.130:3333/users').subscribe(res => {
       console.log(res)
       this.users = res.users
 
@@ -94,7 +102,7 @@ export class ChatComponent implements OnInit {
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario')
 
-    this.http.post('http://192.168.43.151:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu }).subscribe(res => {
+    this.http.post('http://192.168.1.130:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu }).subscribe(res => {
       console.log(res)
       console.log(mensaje)
     });
@@ -104,7 +112,7 @@ export class ChatComponent implements OnInit {
   }
 
   iniciarConexion() {
-    this.ws = new Ws('ws://192.168.43.151:3333').connect();
+    this.ws = new Ws('ws://192.168.1.130:3333').connect();
       this.ws.on('open', data => {
     })
     this.ws.on('error', data => {
@@ -123,7 +131,7 @@ export class ChatComponent implements OnInit {
     this.canal.on('message', data => {
 
       console.log('entr3')
-      this.http.get<any>('http://192.168.43.151:3333/chats/' + this.room).subscribe(res => {
+      this.http.get<any>('http://192.168.1.130:3333/chats/' + this.room).subscribe(res => {
         this.mensajes = res      
         console.log(this.mensajes)
         // this.users = res.users
@@ -149,7 +157,7 @@ export class ChatComponent implements OnInit {
 
     console.log(grupo)
     if(grupo != ''){
-      this.http.post('http://192.168.43.151:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
+      this.http.post('http://192.168.1.130:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
       })
 
     }
@@ -161,7 +169,7 @@ export class ChatComponent implements OnInit {
      this.modalgrupo = true;
     const id_usu = localStorage.getItem('id_user')
 
-    this.http.get<Grupos>('http://192.168.43.151:3333/grupos/'+id_usu).subscribe(res =>{
+    this.http.get<Grupos>('http://192.168.1.130:3333/grupos/'+id_usu).subscribe(res =>{
       this.grupos=res
       console.log(this.grupos)
     })
@@ -177,7 +185,7 @@ export class ChatComponent implements OnInit {
     console.log(user_id)
 
 
-    this.http.post('http://192.168.43.151:3333/gruposusers',{grupo:grupo_id,usuario:user_id}).subscribe(res =>{
+    this.http.post('http://192.168.1.130:3333/gruposusers',{grupo:grupo_id,usuario:user_id}).subscribe(res =>{
      console.log(res)
     
     })
@@ -187,11 +195,37 @@ export class ChatComponent implements OnInit {
   RecuperarGrupoUsuario(){
     const id_usu = localStorage.getItem('id_user')
 
-    this.http.get<any>('http://192.168.43.151:3333/gruposusers/'+id_usu).subscribe(res =>{
+    this.http.get<any>('http://192.168.1.130:3333/gruposusers/'+id_usu).subscribe(res =>{
       this.gruposuser = res
 
       // console.log(this.grupos)
     })
+
+  }
+subir
+  subirarchivo($event){
+    let img:any = event.target;
+    if(img.files.length > 0){
+      this.loader = true;
+      let form = new FormData();
+      form.append('file',img.files[0]);
+      this.subir.subirImagen(form).subscribe(
+        res => {
+          this.loader=false
+          if(res.status){
+            this.trueimg = true;
+            this.myimg = environment+res.generatedName;
+          }
+
+        },
+        error => {
+          this.loader = false;
+          alert('no se puede')
+        }
+        
+      )
+    }
+
 
   }
 
