@@ -31,7 +31,7 @@ const routes :Routes = [
   {path:'registro',component:RegistroComponent, canActivate: [LoginGuard]},
   {path:'chat', component: ChatComponent,canActivate:[AuthGuard]},  
   {path:'historial',component:HistorialComponent},
-  {path:'', component: LoginComponent,canActivate:[LoginGuard]},
+  {path:'', component: LoginComponent},
   {path: '**',   redirectTo: '', pathMatch: 'full' }
  
 

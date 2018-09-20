@@ -203,33 +203,22 @@ export class ChatComponent implements OnInit {
 
   }
 subir
-  subirarchivo($event){
-    let img:any = event.target;
-    if(img.files.length > 0){
-      this.loader = true;
-      let form = new FormData();
-      form.append('file',img.files[0]);
-      this.subir.subirImagen(form).subscribe(
-        res => {
-          this.loader=false
-          if(res.status){
-            this.trueimg = true;
-            this.myimg = environment+res.generatedName;
-          }
+  subirarchivo(event){
+    let elemento = event.target
+    if(elemento.files.length > 0){
+      let formData = new FormData();
+      formData.append('file',elemento.files[0]);
 
-        },
-        error => {
-          this.loader = false;
-          alert('no se puede')
-        }
-        
-      )
+      this.http.post('http://192.168.1.130:3333/chats', formData)
+      .subscribe((data) => {
+        let jsonRes = data
+      },(error) => console.log(error.message))
+      
+
+      }
     }
 
 
   }
 
 
-
-
-}

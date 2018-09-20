@@ -96,16 +96,20 @@
 		<form (submit)="SendMensaje($event)" >
 			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
-					<input type="text" name="msj" id="msj"  placeholder="Escribe tu mensaje..." />
-					<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+					<input type="text" name="msj" id="msj"  placeholder="Escribe tu mensaje..." />				
 					<button   id="btnEnviar" class="submit">
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
 				</div>
+				<label for="btn btn-light">
+						<input type="file" name="subir" id="" (change)="subirarchivo($event)">
+					</label>
 			</div>
-			<input type="file" name="file" (change)="subirarchivo($event)" accept="image/*" />
 		</form>
+		
+			<!-- <i class="fa fa-paperclip attachment" aria-hidden="true" (click)="subirarchivo($event)" accept="image/*"></i>. -->
 
+	
 	</div>
 <!-- moda crar grupo -->
 	<div *ngIf="modal" class="modal  is-active" >
