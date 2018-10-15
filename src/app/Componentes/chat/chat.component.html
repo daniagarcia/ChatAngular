@@ -76,7 +76,7 @@
 								object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
 								<p>{{msj.mensajes}}</p>
 							</li>				
-				</ng-template>
+				</ng-template>				
 				<ng-template #elseBlock>
 						<li class="replies">
 								<h6 style="float: right;" >{{conversando.user.username}}</h6>
@@ -88,30 +88,33 @@
 								object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
 								<p>{{msj.mensajes}}</p>
 							</li>
-				</ng-template>			
-				
+				</ng-template>					
 			</ul>
-		</div>
-
-		<form (submit)="SendMensaje($event)" >
+		</div>		
+	
+		<form  (submit)="SendMensaje($event)" >
 			<div (submit)="getRequest()" class="message-input">
 				<div class="wrap">
 					<input type="text" name="msj" id="msj"  placeholder="Escribe tu mensaje..." />				
 					<button   id="btnEnviar" class="submit">
 						<i class="fa fa-paper-plane" aria-hidden="true"></i>
 					</button>
+					
 				</div>
-				<label for="btn btn-light">
+				
+				<input  style="float: right" type="file" name="subir" id="" (change)="subirarchivo($event)">
+				<!-- <label for="btn btn-light">
 						<input type="file" name="subir" id="" (change)="subirarchivo($event)">
-					</label>
+					</label> -->
 			</div>
 		</form>
+		
 		
 			<!-- <i class="fa fa-paperclip attachment" aria-hidden="true" (click)="subirarchivo($event)" accept="image/*"></i>. -->
 
 	
 	</div>
-<!-- moda crar grupo -->
+<!-- modal crar grupo -->
 	<div *ngIf="modal" class="modal  is-active" >
 		<div class="modal-background"></div>
 		<div class="modal-content">
@@ -123,7 +126,7 @@
 		</div>
 		<button (click)='modal=false' class="modal-close is-large" aria-label="close"></button>
 	  </div>
-	  <!-- fin moda crar grupo -->
+	  <!-- fin modal crar grupo -->
 	  
 
 	  <div *ngIf="modalgrupo" class="modal  is-active" >
