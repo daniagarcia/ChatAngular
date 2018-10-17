@@ -553,8 +553,8 @@ body {
   #frame .content .messages {
     height: auto;
     width: 100%;
-    min-height: calc(100% - 93px);
-    max-height: calc(100% - 93px);
+    min-height: calc(100% - 130px);
+    max-height: calc(100% - 130px);
     overflow-y: scroll;
     overflow-x: hidden;
   }
