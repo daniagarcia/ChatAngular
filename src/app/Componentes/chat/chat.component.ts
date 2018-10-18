@@ -31,12 +31,14 @@ export class ChatComponent implements OnInit {
   modal:boolean=false;
   modalgrupo:boolean=false;
   listUsuarios:any[]=[]
-
+  isTyping:Boolean=true;
   trueimg:Boolean = false;
   loader:Boolean = false;
   myimg:string;
   final:Boolean = true;
   msn:string;
+
+
 
   
   clickUsuario(user: any) {
@@ -101,13 +103,19 @@ export class ChatComponent implements OnInit {
     const mensaje = target.querySelector('#msj').value
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario')
-
     this.http.post('http://192.168.1.130:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu }).subscribe(res => {
       console.log(res)
       console.log(mensaje)
     });
     this.ws.getSubscription('chat:'+ this.room).emit('message','')
-  target.querySelector("#msj").value=''
+
+       target.querySelector("#msj").value=''
+       if(target.querySelector("#msj").value !== '[]'){
+         this.mensajes.mensajes
+        
+       }
+       this.isTyping = true
+  
 
   }
 
