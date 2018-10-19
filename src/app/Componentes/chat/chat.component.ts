@@ -110,11 +110,11 @@ export class ChatComponent implements OnInit {
     this.ws.getSubscription('chat:'+ this.room).emit('message','')
 
        target.querySelector("#msj").value=''
-       if(target.querySelector("#msj").value !== '[]'){
-         this.mensajes.mensajes
+      //  if(target.querySelector("#msj").value !== '[]'){
+      //    this.mensajes.mensajes
         
-       }
-       this.isTyping = true
+      //  }
+      //  this.isTyping = true
   
 
   }
