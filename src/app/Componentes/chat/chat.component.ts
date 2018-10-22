@@ -216,14 +216,21 @@ subir
     if(elemento.files.length > 0){
       let formData = new FormData();
       formData.append('file',elemento.files[0]);
-
+      console.log(event)
+      console.log(formData)
+      
       this.http.post('http://192.168.1.130:3333/chats', formData)
       .subscribe((data) => {
-        let jsonRes = data
-      },(error) => console.log(error.message))
       
-
+        let jsonRes = data
+      
+        
+      },(error) => console.log(error.message))
+   
       }
+    
+
+  
     }
 
 
