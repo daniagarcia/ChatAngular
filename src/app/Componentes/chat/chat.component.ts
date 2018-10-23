@@ -38,6 +38,7 @@ export class ChatComponent implements OnInit {
   final:Boolean = true;
   msn:string;
 
+ 
 
 
   
@@ -85,6 +86,7 @@ export class ChatComponent implements OnInit {
     this.id = localStorage.getItem('id_user')
     this.iniciarConexion()
     this.RecuperarGrupoUsuario()
+    this.msn = "subibiendo img"
     // this.SendMensaje(event);  
 
     // this.mensaje=localStorage.getItem('mensaje')
@@ -107,7 +109,7 @@ export class ChatComponent implements OnInit {
       console.log(res)
       console.log(mensaje)
     });
-    this.ws.getSubscription('chat:'+ this.room).emit('message','')
+    this.ws.getSubscription('chat:'+ this.room).emit('message','file','')
 
        target.querySelector("#msj").value=''
       //  if(target.querySelector("#msj").value !== '[]'){
@@ -211,29 +213,58 @@ export class ChatComponent implements OnInit {
 
   }
 subir
-  subirarchivo(event){
-    let elemento = event.target
-    if(elemento.files.length > 0){
-      let formData = new FormData();
-      formData.append('file',elemento.files[0]);
-      console.log(event)
-      console.log(formData)
+  // subirarchivo(event){
+  //   let elemento = event.target
+  //   if(elemento.files.length > 0){
+  //     let formData = new FormData();
+  //     formData.append('file',elemento.files[0]);
+  //     console.log(event)
+  //     console.log(formData)
       
-      this.http.post('http://192.168.1.130:3333/chats', formData)
-      .subscribe((data) => {
+  //     this.http.post('http://192.168.1.130:3333/chats', formData)
+  //     .subscribe((data) => {
       
-        let jsonRes = data
+  //       let jsonRes = data
       
         
-      },(error) => console.log(error.message))
+  //     },(error) => console.log(error.message))
    
-      }
+  //     }
     
 
   
+  //   }
+
+  subirarchivo(event){
+  let img:any = event.target;
+  console.log(img.files[0])
+  
+  if(img.files.length > 0){
+    this.loader = true;
+    let formData = new FormData();    
+    formData.append('file',img.files[0]);
+    this.http.post<any>('http://192.168.1.130:3333/chats',{'file': img.files[0]}).subscribe((data =>
+
+    resp => {
+      this.loader = false;
+      if(resp.status){
+        this.trueimg = true;
+        // let jsonRes = data
+      
+          // this.myimg = environment.ruta+resp.generatedName;  
+        this.msn = "G"
+      }
     }
-
-
+  ),(error) => console.log(error.message))
+     
+      // error => {
+      //   this.loader = false;
+      //   alert('Imagen supera el tamaño permitido');
+        
+      // }
+    // );
   }
+  }
+}
 
 

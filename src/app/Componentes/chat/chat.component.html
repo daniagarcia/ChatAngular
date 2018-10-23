@@ -96,8 +96,8 @@
 									<i class="fa fa-paper-plane" aria-hidden="true"></i>
 								</button>						
 							</div>
-							<form method="POST" action="upload" enctype="multipart/form-data">
-								<input type="file" name="pic" />
+							<form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
+								<input type="file" name="files" />
 								<!-- <button type="submit"> Submit </button> -->
 							  </form>
 							<!-- <input type="file" accept="image/*,video/*,audio/*" id="arch" (Change)="subirarchivo($event)"
