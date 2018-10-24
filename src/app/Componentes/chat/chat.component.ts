@@ -37,10 +37,7 @@ export class ChatComponent implements OnInit {
   myimg:string;
   final:Boolean = true;
   msn:string;
-
- 
-
-
+  fileToUpload: File = null;
   
   clickUsuario(user: any) {
     this.canal.close()
@@ -238,30 +235,28 @@ subir
   
   //   }
 
-  subirarchivo(event){
-    event.preventDefault()
-    // const target = event.target  
-    let img:any = event.target;   
-    const mensaje = img.querySelector('#msj')
+  subirarchivo(event){    
+   event.preventDefault()
+    const target = event.target  
+    // let img = event.img;    
+    const mensaje = target.querySelector('#msj')
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario')
-
-    console.log(img.files[0])
+    // s const file = target.querySelector('archivos')
+    console.log(target.files[0])
   
-  if(img.files.length > 0){
+  if(target.files.length > 0){
+    
     this.loader = true;
     let formData = new FormData();    
-    formData.append('file',img.files[0]);
-    this.http.post<any>('http://192.168.1.130:3333/chats',{mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu,'file': img.files[0]}).subscribe((data =>
+    formData.append('file',target.files[0]);
+    this.http.post<any>('http://192.168.1.130:3333/chats',{mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu,'file': target.files[0]}).subscribe((data =>
 
     resp => {
       this.loader = false;
       if(resp.status){
-        this.trueimg = true;
-        // let jsonRes = data
-      
-          // this.myimg = environment.ruta+resp.generatedName;  
-        this.msn = "G"
+
+       
       }
     }
   )),(error) => console.log(error.message)
