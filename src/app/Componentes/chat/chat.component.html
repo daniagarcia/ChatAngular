@@ -96,10 +96,12 @@
 									<i class="fa fa-paper-plane" aria-hidden="true"></i>
 								</button>						
 							</div>
-							<form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
-								<input type="file" id="files" />
+
+							<input type="file" name="category_file" id="files" (change)="subirarchivo($event)">
+							<!-- <form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
+								<input type="file" id="files" /> -->
 								<!-- <button type="submit"> Submit </button> -->
-							  </form>
+							  <!-- </form> -->
 							<!-- <input type="file" accept="image/*,video/*,audio/*" id="arch" (Change)="subirarchivo($event)"
 							class="write_msg"> -->
 							
