@@ -58,6 +58,12 @@
 			<p></p>
 		</div>
   
+
+
+
+		
+
+
 		<div class="messages">
 			<ul *ngFor="let msj of mensajes;" >
 				<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
@@ -69,8 +75,8 @@
 								padding: 3px;
 								border: 2px solid #1fcf45;
 								height: 40px;
-								object-fit: cover;" src="/assets/perfil.jpg"  alt="" />
-								<p>{{msj.mensajes}}</p>
+								object-fit: cover;" src="/assets/perfil.jpg"  alt="" />					  
+								<p>{{msj.mensajes}}</p>							
 							</li>				
 				</ng-template>				
 				<ng-template #elseBlock>
@@ -91,13 +97,12 @@
 				<form  (submit)="SendMensaje($event)" >
 						<div (submit)="getRequest()" class="message-input">
 							<div class="wrap">
-								<input type="text" name="msj" id="msj"  placeholder="Escribe tu mensaje..." />				
+								<input type="text" name="msj" id="msj" [(ngModel)]="msjval"  placeholder="Escribe tu mensaje..." />				
 								<button   id="btnEnviar" class="submit">
 									<i class="fa fa-paper-plane" aria-hidden="true"></i>
 								</button>						
 							</div>
-
-							<input type="file" name="category_file" id="file" (change)="subirarchivo($event)">
+								<input type="file" name="file" id="file" accept="image/*,video/*,audio/*" (change)="subirarchivo($event)">
 							<!-- <form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
 								<input type="file" id="files" /> -->
 								<!-- <button type="submit"> Submit </button> -->
