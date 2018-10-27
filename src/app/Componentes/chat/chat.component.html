@@ -57,17 +57,18 @@
 			<p>{{conversando.user.username}}</p>
 			<p></p>
 		</div>
-  
-
-
-
-		
 
 
 		<div class="messages">
+			
 			<ul *ngFor="let msj of mensajes;" >
 				<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
 				<ng-template #thenBlock>
+					<li *ngIf='msj.file !== null'>
+						
+						<img style="    width: 13rem;
+						border-radius: 1rem" src="http://localhost:3333{{msj.file}}" alt="">
+					</li>
 						<li class="sent">
 								<h6>{{username}}</h6>
 								<img style="width: 40px;

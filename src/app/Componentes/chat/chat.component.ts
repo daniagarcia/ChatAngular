@@ -18,7 +18,7 @@ import { environment } from '../../../environments/environment.prod';
 })
 
 export class ChatComponent implements OnInit {
-  ws = Ws('ws://192.168.1.130:3333');
+  ws = Ws('ws://127.0.0.1:3333');
   users: any[] = []
   conversando: any = null;
   usernameChat: string = "Default";
@@ -54,9 +54,9 @@ export class ChatComponent implements OnInit {
     localStorage.setItem('ArrayUsers',this.room);
     this.subscribirCanal(ArrayUsers)
       //PETEICION //  REQUEST
-    this.http.get<any>('http://192.168.1.130:3333/chats/' + ArrayUsers).subscribe(res => {
+    this.http.get<any>('http://127.0.0.1:3333/chats/' + ArrayUsers).subscribe(res => {
       this.mensajes = res    
-      console.log(this.mensajes)
+      console.log('hola',this.mensajes)
    });
  
   }
@@ -71,7 +71,7 @@ export class ChatComponent implements OnInit {
     this.room= usergrupo.id
     this.subscribirCanal(this.room)
       //PETEICION //  REQUEST
-    this.http.get<any>('http://192.168.1.130:3333/chats/' + this.room).subscribe(res => {
+    this.http.get<any>('http://127.0.0.1:3333/chats/' + this.room).subscribe(res => {
       this.mensajes=res
    });
  
@@ -92,7 +92,7 @@ export class ChatComponent implements OnInit {
 
     // this.mensaje=localStorage.getItem('mensaje')
 
-    this.http.get<any>('http://192.168.1.130:3333/users').subscribe(res => {
+    this.http.get<any>('http://127.0.0.1:3333/users').subscribe(res => {
       console.log(res)
       this.users = res.users
 
@@ -101,21 +101,24 @@ export class ChatComponent implements OnInit {
   }
 
   SendMensaje(event) {
+    debugger
     event.preventDefault()
     const target = event.target
     const mensaje = target.querySelector('#msj').value
     const id_usu = localStorage.getItem('id_user')
     const id_usuario = localStorage.getItem('id_usuario') 
    
-    this.http.post('http://192.168.1.130:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu}).subscribe(res => {
+    this.http.post('http://127.0.0.1:3333/chats', { mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu}).subscribe(res => {
       console.log(res)
       console.log(mensaje)
   
     });
     this.ws.getSubscription('chat:'+ this.room).emit('message','')
+   
 
        target.querySelector("#msj").value=''
       
+       target.querySelector("#file").value=''
       //  if(target.querySelector("#msj").value !== '[]'){
       //    this.mensajes.mensajes
         
@@ -126,7 +129,7 @@ export class ChatComponent implements OnInit {
   }
 
   iniciarConexion() {
-    this.ws = new Ws('ws://192.168.1.130:3333').connect();
+    this.ws = new Ws('ws://127.0.0.1:3333').connect();
       this.ws.on('open', data => {
     })
     this.ws.on('error', data => {
@@ -145,7 +148,7 @@ export class ChatComponent implements OnInit {
     this.canal.on('message', data => {
 
       console.log('entr3')
-      this.http.get<any>('http://192.168.1.130:3333/chats/' + this.room).subscribe(res => {
+      this.http.get<any>('http://127.0.0.1:3333/chats/' + this.room).subscribe(res => {
         this.mensajes = res      
         this.file=res
       
@@ -173,7 +176,8 @@ export class ChatComponent implements OnInit {
 
     console.log(grupo)
     if(grupo != ''){
-      this.http.post('http://192.168.1.130:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
+      this.http.post('http://127.0.0.1:3333/grupos',{grupo:grupo,id_user:id_usu}).subscribe(res => {
+       this.modal=false
       })
 
     }
@@ -183,9 +187,10 @@ export class ChatComponent implements OnInit {
 
   RecuperarGrupos(){
      this.modalgrupo = true;
+ 
     const id_usu = localStorage.getItem('id_user')
 
-    this.http.get<Grupos>('http://192.168.1.130:3333/grupos/'+id_usu).subscribe(res =>{
+    this.http.get<Grupos>('http://127.0.0.1:3333/grupos/'+id_usu).subscribe(res =>{
       this.grupos=res
       console.log(this.grupos)
     })
@@ -201,17 +206,18 @@ export class ChatComponent implements OnInit {
     console.log(user_id)
 
 
-    this.http.post('http://192.168.1.130:3333/gruposusers',{grupo:grupo_id,usuario:user_id}).subscribe(res =>{
+    this.http.post('http://127.0.0.1:3333/gruposusers',{grupo:grupo_id,usuario:user_id}).subscribe(res =>{
      console.log(res)
-    
+     this.modalgrupo=false
     })
 
   }
       gruposuser:Grupos
   RecuperarGrupoUsuario(){
+
     const id_usu = localStorage.getItem('id_user')
 
-    this.http.get<any>('http://192.168.1.130:3333/gruposusers/'+id_usu).subscribe(res =>{
+    this.http.get<any>('http://127.0.0.1:3333/gruposusers/'+id_usu).subscribe(res =>{
       this.gruposuser = res
 
       // console.log(this.grupos)
@@ -233,9 +239,10 @@ file: any;
    if(elemnt.files.length > 0)
    {
      formData.append('file',elemnt.files[0])
-     this.http.post<any>('http://192.168.1.130:3333/archivos',formData).subscribe(res =>{
-
+     this.http.post<any>('http://127.0.0.1:3333/archivos',formData).subscribe(res =>{
+     
      })
+     
      
    }
       
@@ -256,7 +263,7 @@ file: any;
 //   this.loader = true;
 //   let formData = new FormData();    
 //   formData.append('file',target.files[0]);
-//   this.http.post<any>('http://192.168.1.130:3333/chats',{mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu,'files':target.files[0]}).subscribe((data =>
+//   this.http.post<any>('http://127.0.0.1:3333/chats',{mensaje: mensaje, UsersArray: this.room, id_usuario:id_usu,'files':target.files[0]}).subscribe((data =>
  
 //   resp => {
 //     localStorage.setItem('token',target.sesion.token);
@@ -286,7 +293,7 @@ file: any;
   //     console.log(event)
   //     console.log(formData)
       
-  //     this.http.post('http://192.168.1.130:3333/chats', formData)
+  //     this.http.post('http://127.0.0.1:3333/chats', formData)
   //     .subscribe((data) => {
       
   //       let jsonRes = data
