@@ -1,165 +1,191 @@
 <div id="frame">
-	<div id="sidepanel">
-		<div id="profile">
-			<div  class="wrap">
-				<img id="profile-img" src="assets/perfil.jpg" class="online" alt="" />
-				<p>{{username}} </p>
-				<i [hidden]="isTyping">{{user?.username}} Escribiendo...</i>
-				
-				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-			</div>
-		</div>
-
-		<div id="contacts">
-			<ul>
-				<li *ngFor="let user of users;" (click)="clickUsuario(user)" class="contact">
-					<div class="wrap">
-						<span class="contact-status online"></span>
-						<img src="assets/perfil.jpg" alt="" />
-						<div class="meta">
-							<p class="name" id="nameuser">{{user.username}}</p>
-							<p class="preview"></p>
-						</div>
-					</div>	
-				</li>
-			</ul>
-			<br>
-			<ul>
-				<li *ngFor="let usergrupo of gruposuser;" (click)="clickGrupo(usergrupo)"  class="contact">
-					<div class="wrap">
-						<span class="contact-status online"></span>
-						<img src="assets/perfil.jpg" alt="" />
-						<div class="meta">
-							<p class="name" id="nameuser">{{usergrupo.nombre}}</p>
-							<p class="preview"></p>
-						</div>
-					</div>	
-				</li>
-			</ul>
-		</div>
-		<!-- BOTON CREAR GRUPOS -->
-		<div  id="bottom-bar">
-			<button (click)="modal=true" id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Grupo</span></button>
-			<button (click)="RecuperarGrupos()" id=""><i class="" aria-hidden="true"></i> <span>Añadir a Grupo</span></button>
-		</div>
-	
-	</div>
-	<!-- aqui -->
-	
-	<div *ngIf="conversando" class="content">
-		<div class="contact-profile">
-			<img style="width: 40px;
-			border-radius: 50%;
-			padding: 3px;
-			border: 2px solid #1fcf45;
-			height: 40px;
-			object-fit: cover;" src="/assets/perfil.jpg" alt="" />
-			<p>{{conversando.user.username}}</p>
-			<p></p>
-		</div>
-
-
-		<div class="messages">
-			
-			<ul *ngFor="let msj of mensajes;" >
-				<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
-				<ng-template #thenBlock>
-					<li *ngIf='msj.file !== null'>
-						
-						<img style="    width: 13rem;
-						border-radius: 1rem" src="http://localhost:3333{{msj.file}}" alt="">
-					</li>
-						<li class="sent">
-								<h6>{{username}}</h6>
-								<img style="width: 40px;
-								border-radius: 50%;
-								padding: 3px;
-								border: 2px solid #1fcf45;
-								height: 40px;
-								object-fit: cover;" src="/assets/perfil.jpg"  alt="" />					  
-								<p>{{msj.mensajes}}</p>							
-							</li>				
-				</ng-template>				
-				<ng-template #elseBlock>
-						<li class="replies">
-								<h6 style="float: right;" >{{conversando.user.username}}</h6>
-								<img style="width: 40px;
-								border-radius: 50%;
-								padding: 3px;
-								border: 2px solid #1fcf45;
-								height: 40px;
-								object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
-								<p>{{msj.mensajes}}</p>
-							</li>
-				</ng-template>					
-			</ul>
-		</div>		
-		<div>
-				<form  (submit)="SendMensaje($event)" >
-						<div (submit)="getRequest()" class="message-input">
-							<div class="wrap">
-								<input type="text" name="msj" id="msj" [(ngModel)]="msjval"  placeholder="Escribe tu mensaje..." />				
-								<button   id="btnEnviar" class="submit">
-									<i class="fa fa-paper-plane" aria-hidden="true"></i>
-								</button>						
-							</div>
-								<input type="file" name="file" id="file" accept="image/*,video/*,audio/*" (change)="subirarchivo($event)">
-							<!-- <form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
-								<input type="file" id="files" /> -->
-								<!-- <button type="submit"> Submit </button> -->
-							  <!-- </form> -->
-							<!-- <input type="file" accept="image/*,video/*,audio/*" id="arch" (Change)="subirarchivo($event)"
-							class="write_msg"> -->
-							
-						</div>
-					</form>
+		<div id="sidepanel">
+			<div id="profile">
+				<div  class="wrap">
+					<img id="profile-img" src="assets/perfil.jpg" class="online" alt="" />
+					<p>{{username}} </p>
+					<i [hidden]="isTyping">{{user?.username}} Escribiendo...</i>
 					
-
-		</div>
-		
-			<!-- <i class="fa fa-paperclip attachment" aria-hidden="true" (click)="subirarchivo($event)" accept="image/*"></i>. -->
-
+					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+				</div>
+			</div>
 	
-	</div>
-<!-- modal crar grupo -->
-	<div *ngIf="modal" class="modal  is-active" >
-		<div class="modal-background"></div>
-		<div class="modal-content">
-			<form (submit)="crearGrupo($event)">
-					<label for="">Nombre del grupo</label>
-					<input class="input is-primary" id="grupo" type="text"  width="30px" height="50px" ><br>
-					<button  class="button is-link" height="50px" width="50px">Crear</button>
-			</form>		
-		</div>
-		<button (click)='modal=false' class="modal-close is-large" aria-label="close"></button>
-	  </div>
-	  <!-- fin modal crar grupo -->
-	  
-
-	  <div *ngIf="modalgrupo" class="modal  is-active" >
-		<div class="modal-background"></div>
-		<div class="modal-content">
-			<form (submit)="AgregarUsuarios($event)"> 
-				<label for="">Grupos</label>
-					<select  id='grupoid' class="form-control" >
-						<option *ngFor="let grupo of grupos;"value="{{grupo.id}}">{{grupo.nombre}}</option>
-					</select>
+			<div id="contacts">
+				<ul>
+					<li *ngFor="let user of users;" (click)="clickUsuario(user)" class="contact">
+						<div class="wrap">
+							<span class="contact-status online"></span>
+							<img src="assets/perfil.jpg" alt="" />
+							<div class="meta">
+								<p class="name" id="nameuser">{{user.username}}</p>
+								<p class="preview"></p>
+							</div>
+						</div>	
+					</li>
+				</ul>
+				<br>
+				<ul>
+					<li *ngFor="let usergrupo of gruposuser;" (click)="clickGrupo(usergrupo)"  class="contact">
+						<div class="wrap">
+							<span class="contact-status online"></span>
+							<img src="assets/perfil.jpg" alt="" />
+							<div class="meta">
+								<p class="name" id="nameuser">{{usergrupo.nombre}}</p>
+								<p class="preview"></p>
+							</div>
+						</div>	
+					</li>
+				</ul>
+			</div>
+			<!-- BOTON CREAR GRUPOS -->
+			<div  id="bottom-bar">
+				<button (click)="modal=true" id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Grupo</span></button>
+				<button (click)="RecuperarGrupos()" id=""><i class="" aria-hidden="true"></i> <span>Añadir a Grupo</span></button>
+			</div>
 		
-				<label for="">Usuarios</label>
-					<select  id='userid'  class="form-control" >
-						<option *ngFor="let user of users;" value="{{user.id}}">{{user.username}}</option>
-					</select>
-					<br>
-					<button  class="btn btn-primary" height="50px" width="50px">Añadir</button>
-				</form>
+		</div>
+		<!-- aqui -->
+		
+		<div *ngIf="conversando" class="content">
+			<div class="contact-profile">
+				<img style="width: 40px;
+				border-radius: 50%;
+				padding: 3px;
+				border: 2px solid #1fcf45;
+				height: 40px;
+				object-fit: cover;" src="/assets/perfil.jpg" alt="" />
+				<p>{{conversando.user.username}}</p>
+				<p></p>
+			</div>
+	
+	
+			<div class="messages">
+				
+				<ul *ngFor="let msj of mensajes;" >
+					<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
+					<ng-template #thenBlock>
+						<li *ngIf='msj.file !== null'>
+								
+							<div *ngIf="jsonFile(msj.file).format === 'png' || jsonFile(msj.file).format === 'jpge' || jsonFile(msj.file).format === 'jpg' || jsonFile(msj.file).format === 'svg' ">
+								<img style="    width: 16rem;
+								border-radius: 1rem;" src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}" alt="">
+							</div>
+							<div *ngIf="jsonFile(msj.file).format === 'mp3'">
+								<audio src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}"></audio>
+							</div>
+							<div *ngIf="jsonFile(msj.file).format === 'mp4' || jsonFile(msj.file).format === 'avi' || jsonFile(msj.file).format === 'wmv' || jsonFile(msj.file).format === 'mov' || jsonFile(msj.file).format === 'mpeg'">
+								<video src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}"></video>
+							</div>
+							
+						</li>
+							<li *ngIf='msj.file === null' class="sent">
+									<h6>{{username}}</h6>
+									<img style="width: 40px;
+									border-radius: 50%;
+									padding: 3px;
+									border: 2px solid #1fcf45;
+									height: 40px;
+									object-fit: cover;" src="/assets/perfil.jpg"  alt="" />					  
+									<p>{{msj.mensajes}}</p>							
+								</li>				
+					</ng-template>				
+					<ng-template #elseBlock>
+	
+							<li *ngIf='msj.file !== null'>
+								
+									<div *ngIf="jsonFile(msj.file).format === 'png' || jsonFile(msj.file).format === 'jpge' || jsonFile(msj.file).format === 'jpg' || jsonFile(msj.file).format === 'svg' ">
+										<img style="    width: 16rem;
+										border-radius: 1rem;" src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}" alt="">
+									</div>
+									<div *ngIf="jsonFile(msj.file).format === 'mp3'">
+										<audio src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}"></audio>
+									</div>
+									<div *ngIf="jsonFile(msj.file).format === 'mp4' || jsonFile(msj.file).format === 'avi' || jsonFile(msj.file).format === 'wmv' || jsonFile(msj.file).format === 'mov' || jsonFile(msj.file).format === 'mpeg'">
+										<video src="http://192.168.0.11:3333{{jsonFile(msj.file).url}}"></video>
+									</div>
+									
+								</li>
+	
+							<li *ngIf='msj.file === null' class="replies">
+									<h6 style="float: right;" >{{conversando.user.username}}</h6>
+									<img style="width: 40px;
+									border-radius: 50%;
+									padding: 3px;
+									border: 2px solid #1fcf45;
+									height: 40px;
+									object-fit: cover;" src="/assets/perfil.jpg" alt="" />					
+									<p>{{msj.mensajes}}</p>
+								</li>
+					</ng-template>					
+				</ul>
+			</div>		
+			<div>
+					<form  (submit)="SendMensaje($event)" >
+							<div (submit)="getRequest()" class="message-input">
+								<div class="wrap">
+									<input type="text" name="msj" id="msj" [(ngModel)]="msjval"  placeholder="Escribe tu mensaje..." />				
+									<button   id="btnEnviar" class="submit">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+									</button>						
+								</div>
+									<input type="file" name="file" id="file" accept="image/*,video/*,audio/*" (change)="subirarchivo($event)">
+								<!-- <form method="POST" action="upload" enctype="multipart/form-data" (change)="subirarchivo($event)" >
+									<input type="file" id="files" /> -->
+									<!-- <button type="submit"> Submit </button> -->
+								  <!-- </form> -->
+								<!-- <input type="file" accept="image/*,video/*,audio/*" id="arch" (Change)="subirarchivo($event)"
+								class="write_msg"> -->
+								
+							</div>
+						</form>
+						
+	
+			</div>
+			
+				<!-- <i class="fa fa-paperclip attachment" aria-hidden="true" (click)="subirarchivo($event)" accept="image/*"></i>. -->
+	
 		
 		</div>
-		<button (click)='modalgrupo=false' class="modal-close is-large" aria-label="close"></button>
-	  </div>
-
-
-
-<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
-
-<script>$(".messages").animate({ scrollTop: $(document).height() }, "fast");</script>
-
+	<!-- modal crar grupo -->
+		<div *ngIf="modal" class="modal  is-active" >
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<form (submit)="crearGrupo($event)">
+						<label for="">Nombre del grupo</label>
+						<input class="input is-primary" id="grupo" type="text"  width="30px" height="50px" ><br>
+						<button  class="button is-link" height="50px" width="50px">Crear</button>
+				</form>		
+			</div>
+			<button (click)='modal=false' class="modal-close is-large" aria-label="close"></button>
+		  </div>
+		  <!-- fin modal crar grupo -->
+		  
+	
+		  <div *ngIf="modalgrupo" class="modal  is-active" >
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<form (submit)="AgregarUsuarios($event)"> 
+					<label for="">Grupos</label>
+						<select  id='grupoid' class="form-control" >
+							<option *ngFor="let grupo of grupos;"value="{{grupo.id}}">{{grupo.nombre}}</option>
+						</select>
+			
+					<label for="">Usuarios</label>
+						<select  id='userid'  class="form-control" >
+							<option *ngFor="let user of users;" value="{{user.id}}">{{user.username}}</option>
+						</select>
+						<br>
+						<button  class="btn btn-primary" height="50px" width="50px">Añadir</button>
+					</form>
+			
+			</div>
+			<button (click)='modalgrupo=false' class="modal-close is-large" aria-label="close"></button>
+		  </div>
+	
+	
+	
+	<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+	
+	<script>$(".messages").animate({ scrollTop: $(document).height() }, "fast");</script>
+	
+	
