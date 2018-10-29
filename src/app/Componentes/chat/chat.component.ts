@@ -61,6 +61,12 @@ export class ChatComponent implements OnInit {
  
   }
 
+  jsonFile(c)
+  {
+    console.log(JSON.parse(c))
+    return JSON.parse(c);
+
+  }
   clickGrupo(usergrupo: any) {
     this.canal.close()
     this.conversando = { 'user':{

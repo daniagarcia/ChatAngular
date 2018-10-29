@@ -65,11 +65,20 @@
 				<div *ngIf='msj.id_usuario == id; then thenBlock else elseBlock'></div>
 				<ng-template #thenBlock>
 					<li *ngIf='msj.file !== null'>
+							
+						<div *ngIf="jsonFile(msj.file).format === 'png' || jsonFile(msj.file).format === 'jpge' || jsonFile(msj.file).format === 'jpg' || jsonFile(msj.file).format === 'svg' ">
+							<img style="    width: 16rem;
+							border-radius: 1rem;" src="http://localhost:3333{{jsonFile(msj.file).url}}" alt="">
+						</div>
+						<div *ngIf="jsonFile(msj.file).format === 'mp3'">
+							<audio src="http://localhost:3333{{jsonFile(msj.file).url}}"></audio>
+						</div>
+						<div *ngIf="jsonFile(msj.file).format === 'mp4' || jsonFile(msj.file).format === 'avi' || jsonFile(msj.file).format === 'wmv' || jsonFile(msj.file).format === 'mov' || jsonFile(msj.file).format === 'mpeg'">
+							<video src="http://localhost:3333{{jsonFile(msj.file).url}}"></video>
+						</div>
 						
-						<img style="    width: 13rem;
-						border-radius: 1rem" src="http://localhost:3333{{msj.file}}" alt="">
 					</li>
-						<li class="sent">
+						<li *ngIf='msj.file === null' class="sent">
 								<h6>{{username}}</h6>
 								<img style="width: 40px;
 								border-radius: 50%;
@@ -81,7 +90,23 @@
 							</li>				
 				</ng-template>				
 				<ng-template #elseBlock>
-						<li class="replies">
+
+						<li *ngIf='msj.file !== null'>
+							
+								<div *ngIf="jsonFile(msj.file).format === 'png' || jsonFile(msj.file).format === 'jpge' || jsonFile(msj.file).format === 'jpg' || jsonFile(msj.file).format === 'svg' ">
+									<img style="    width: 16rem;
+									border-radius: 1rem;" src="http://localhost:3333{{jsonFile(msj.file).url}}" alt="">
+								</div>
+								<div *ngIf="jsonFile(msj.file).format === 'mp3'">
+									<audio src="http://localhost:3333{{jsonFile(msj.file).url}}"></audio>
+								</div>
+								<div *ngIf="jsonFile(msj.file).format === 'mp4' || jsonFile(msj.file).format === 'avi' || jsonFile(msj.file).format === 'wmv' || jsonFile(msj.file).format === 'mov' || jsonFile(msj.file).format === 'mpeg'">
+									<video src="http://localhost:3333{{jsonFile(msj.file).url}}"></video>
+								</div>
+								
+							</li>
+
+						<li *ngIf='msj.file === null' class="replies">
 								<h6 style="float: right;" >{{conversando.user.username}}</h6>
 								<img style="width: 40px;
 								border-radius: 50%;
