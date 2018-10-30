@@ -30,7 +30,7 @@ export class RegistroComponent implements OnInit {
     const psw = target.querySelector('#psw').value
     console.log(usu, psw)
 
-     this.http.post('http://192.168.0.11:3333/insertarUser',{usu:usu,email:email,psw:psw}).subscribe(res=>{
+     this.http.post('http://localhost:3333/insertarUser',{usu:usu,email:email,psw:psw}).subscribe(res=>{
      if(res)
       this.router.navigate(['/'])
      console.log(res)
